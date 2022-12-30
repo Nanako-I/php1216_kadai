@@ -1,10 +1,9 @@
+<script>
+
 //****************************************
 //成功関数
 //****************************************
 let map;
-function getCenter(){
-  let center = myMap.getCenter
-};
 
 function mapsInit(position) {
   console.log(position,"成功")
@@ -155,3 +154,4 @@ const set = {
 function GetMap() {
   navigator.geolocation.getCurrentPosition(mapsInit, mapsError, set);
 }
+</script>

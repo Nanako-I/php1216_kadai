@@ -14,6 +14,8 @@
 $name = $_POST['name'];
 $URL = $_POST['URL'];
 $comment = $_POST['comment'];
+$lat = $_POST['lat'];
+$lng = $_POST['lng'];
 
 //2. DB接続します※基本コピペ！！
 // try=データベースに接続してください
@@ -30,11 +32,15 @@ try {
 //３．データ登録SQL作成
 
 // 1. SQL文を用意
+
 $stmt = $pdo->prepare("INSERT INTO
-                        gs_bm_table(id, name, URL, comment, date)
-                        -- NULLとすると自動的に連番でIDに入る 
-                        -- :nameや:URLは変数。$stmt->bindValueに入れる前に仮置きしてるだけ。$nameと同じ意味
-                        VALUES(NULL, :name, :URL, :comment, sysdate() )");
+gs_map_table (
+    id, name, URL, comment, lat, lng, date
+ ) VALUES(NULL, :name, :URL, :comment, :lat, :lng,  sysdate() )");
+
+                        // -- NULLとすると自動的に連番でIDに入る 
+                        // -- :nameや:URLは変数。$stmt->bindValueに入れる前に仮置きしてるだけ。$nameと同じ意味
+                        
 
 //  2. バインド変数を用意
 // Integer 数値の場合 PDO::PARAM_INT
@@ -43,6 +49,8 @@ $stmt = $pdo->prepare("INSERT INTO
 $stmt->bindValue(':name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':URL', $URL, PDO::PARAM_STR);
 $stmt->bindValue(':comment', $comment, PDO::PARAM_STR);
+$stmt->bindValue(':lat', $lat, PDO::PARAM_INT);
+$stmt->bindValue(':lng', $lng, PDO::PARAM_INT);
 //  3. 実行
 // execute＝実行してください！
 $status = $stmt->execute();

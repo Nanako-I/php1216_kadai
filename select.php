@@ -1,25 +1,5 @@
 <?php
 
-// $ary= ['豊岡小学校','出石特別支援学校','精和園成人寮'];
-// foreach ($ary as &$value) {
-//   echo $value. '<br/>';
-// }
-
-  // echo '<pre>';
-  //   var_dump($value);
-  //   echo'</pre>';
-// $ary= ['豊岡小学校','出石特別支援学校','精和園成人寮'];
-
-// var_dump($ary[0]);
-// 昨日付け足し↓
-// $school_name = [
-//   ['name' => '豊岡小学校'],
-//   ['name' => '出石特別支援学校'],
-//   ['name' => '精和園成人寮']
-// ];
-
-// $json = json_encode($school_name);
-// var_dump($school_name);
 // セキュリティ対策↓
 function h($str)
 {
@@ -38,10 +18,10 @@ try {
 //２．データ取得SQL作成
 // 処理のSQLを書く↓
 // データ上にあるデータを取ってくるため、セキュリティ上問題ない
-// $stmt = $pdo->prepare("SELECT * FROM gs_bm_table;");
+// $stmt = $pdo->prepare("SELECT * FROM gs_map_table;");
 // 昨日付け足し↓
-$stmt = $pdo->prepare("SELECT * FROM gs_bm_table WHERE name LIKE '豊岡小学校'");
-// $stmt = $pdo->prepare("SELECT  * FROM gs_bm_table GROUP BY `name` ;");
+$stmt = $pdo->prepare("SELECT * FROM gs_map_table WHERE name LIKE '豊岡小学校'");
+
 
 $status = $stmt->execute();
 
@@ -64,7 +44,8 @@ if ($status==false) {
     // 追加してデータを出すためにドットを入れる
     // htmlspecialchars（セキュリティ対策）を実行するためにnameとemailをhで囲む
     // ブラウザで表示される時に、scriptタグをnameに入れてもjsが実行されず文字列で表示される↓
-    $view .= '<p>'. $result['id'] . "/" .  h($result['name']) . "/" .   h($result['URL']) . "/" .  h($result['comment']). '</p>';
+    $view .= '<p>'. $result['id'] . "/" .  h($result['name']) . "/" .   h($result['URL']) . "/" .  h($result['comment']). "/" . h($result['lat']) . "/" .   h($result['lng']) .'</p>';
+    // 緯度経度を配列にプッシュする命令
     // Pタグ＝段落の意味をもっているためPタグで改行できる↑
     // 福島/aaaa/dddみたいにスラッシュで表示させるために . "/" . でそれぞれを結合させる
   }
