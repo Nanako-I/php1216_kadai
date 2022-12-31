@@ -30,13 +30,19 @@ try {
 }
 
 //３．データ登録SQL作成
-
+// $pdo = db_conn();
 // 1. SQL文を用意
 
 $stmt = $pdo->prepare("INSERT INTO
+
 gs_map_table (
-    id, name, URL, comment, lat, lng, date
- ) VALUES(NULL, :name, :URL, :comment, :lat, :lng,  sysdate() )");
+    name, URL, comment, lat, lng, date
+ ) VALUES(:name, :URL, :comment, :lat, :lng,  sysdate() )");
+
+// gs_map_table (
+//     id, name, URL, comment, lat, lng, date
+//  ) VALUES(NULL, :name, :URL, :comment, :lat, :lng,  sysdate() )");
+
 
                         // -- NULLとすると自動的に連番でIDに入る 
                         // -- :nameや:URLは変数。$stmt->bindValueに入れる前に仮置きしてるだけ。$nameと同じ意味

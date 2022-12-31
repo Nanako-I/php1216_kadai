@@ -63,10 +63,11 @@ body {
                 <legend>学校のコメントを入力</legend>
                 <label>学校名：<input type="text" name="name"></label><br>
                 <label>学校HP:<input type="URL" name="URL"></label><br>
-                <label>緯度：<input type="text" name="lat" id="show_lat"></label><br>
-                <label>経度：<input type="text" name="lng" id="show_lng"></label><br>
+                <label>緯度：<input type="text" name="lat"  id="show_lat" placeholder="緯度が自動入力"></label><br>
+                <label>経度：<input type="text" name="lng" id="show_lng" placeholder="経度が自動入力"></label><br>
                 <label><textArea name="comment" rows="4" cols="40"></textArea></label><br>
                 <input type="submit" value="送信">
+                <div id="geocode">geocode:data</div>
             </fieldset>
         </div>
     </form>
@@ -78,22 +79,49 @@ body {
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=' async
     defer></script>
-  <script src="js/BmapQuery.js"></script>
+ <script src="js/BmapQuery.js"></script>
   <script src="js/map.js"></script>
+  
 
   <script>
+
+    //Init
+function GetMap(){
+    //------------------------------------------------------------------------
+    //1. Instance
+    //------------------------------------------------------------------------
+    const map = new Bmap("#myMap");
+    
+    //------------------------------------------------------------------------
+    //2. Display Map
+    //   startMap(lat, lon, "MapType", Zoom[1~20]);
+    //   MapType:[load, aerial,canvasDark,canvasLight,birdseye,grayscale,streetside]
+    //--------------------------------------------------
+    map.startMap(35.544183970713334, 134.81330869397715, "load", 10);
+
 // myMap.addEventListener('click', function(){
 //   alert('クリックされたよ');
 // });
-
-myMap.addEventListener('click', function(e){
-  // getClickLatLng(e.latLng,myMap);
-
+// };
+map.onGeocode("click", function(data){
+        console.log(data);                   //Get Geocode ObjectData
+        const lat = data.location.latitude;  //Get latitude
+        const lon = data.location.longitude; //Get longitude
+        map.infoboxHtml(lat,lon, '<div style="background:red;">Hello,world</div>');
+        map.pin(lat,lon, '#ff0000');
+        document.querySelector("#show_lat").innerHTML= lat;
+        document.querySelector("#show_lng").innerHTML= lon;
+        // document.querySelector("#geocode").innerHTML= lat+','+lon;
+    });
+  };
+// myMap.addEventListener('click', function(e){
+//   getClickLatLng(e.latLng,myMap);
+//   function getClickLatLng(lat_lng, map){
   // 座標を表示↓
-  document.getElementById('show_lat').textContent = lat_lng.lat();
+  // document.getElementById('show_lat').textContent = lat_lng.lat();
   // document.getElementById('show_lng').textContent = lat_lng.lng();
-  alert("ok");
-});
+//   alert("ok");
+// }});
 
 // function getClickLatLng(lat_lng, map){
 
