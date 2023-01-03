@@ -18,9 +18,9 @@ try {
 //２．データ取得SQL作成
 // 処理のSQLを書く↓
 // データ上にあるデータを取ってくるため、セキュリティ上問題ない
-// $stmt = $pdo->prepare("SELECT * FROM gs_map_table;");
+$stmt = $pdo->prepare("SELECT * FROM gs_map_table;");
 // 昨日付け足し↓
-$stmt = $pdo->prepare("SELECT * FROM gs_map_table WHERE name LIKE '豊岡小学校'");
+// $stmt = $pdo->prepare("SELECT * FROM gs_map_table WHERE name LIKE '豊岡小学校'");
 
 
 $status = $stmt->execute();
@@ -39,27 +39,39 @@ if ($status==false) {
 
   // 1行とったらresultに格納し処理する↓
   while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
-    // resuleのnameをviewに格納する　viewの中に名前が入ってくる↓
-    // $view .=の.（ドット）を入れないと、一番最後に入れたもの（nameやemail）とかだけ出てきてしまう。
-    // 追加してデータを出すためにドットを入れる
-    
-    // Pタグ＝段落の意味をもっているためPタグで改行できる
-    // 福島/aaaa/dddみたいにスラッシュで表示させるために . "/" . でそれぞれを結合させる
 
-    // htmlspecialchars（セキュリティ対策）を実行するためにnameとemailをhで囲む
-    // ブラウザで表示される時に、scriptタグをnameに入れてもjsが実行されず文字列で表示される↓
-    $view .= '<p>'. $result['id'] . "/" .  h($result['name']) . "/" .   h($result['URL']) . "/" .  h($result['comment']). "/" . h($result['lat']) . "/" .   h($result['lng']) .'</p>';
-// 緯度経度を配列にプッシュする命令
+        //GETデータ送信リンク作成
+
+        $view .= '<p>';
+        $view .= '<a href="detail.php?id=' . $result['id'] . '">';
+        $view .= $result['name'] . '：' . $result['URL'] . '：' . $result['comment'] . '：' . $result['lat'] . '：' .  $result['lng'];
+        $view .= '</a>';
+
+
+        // 緯度経度を配列にプッシュする命令↓
+        $lat_lng = array('lat'=> $result['lat'], 'lng'=> $result['lng']);
+
+        // $keys = array_keys($lat_lng);
+        // var_dump($keys);
+
+        // 配列名が「$lat_lng」なので、値を取得するときは「$lat_lng[]」と書く↓
+        // 取得したい値のキーを[]の中に書く
+        $lat = $lat_lng["lat"];
+        $lng = $lat_lng["lng"];
+        var_dump($lat,$lng);
+
+
+        // var_dump($lat_lng);
 
 // 削除処理追加↓
     $view .= '<a href="delete.php?id=' . $result['id'] . '">';
         $view .= '[ 削除 ]';
         $view .= '</a>';
-
-    
+        $view .= '</p>';
   }
 
 }
+
 ?>
 
 
@@ -142,6 +154,46 @@ body {
   <script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=' async
     defer></script>
   <script src="js/BmapQuery.js"></script>
-  <script src="js/map.js"></script>
+  <!-- <script src="js/map.js"></script> -->
+  <script>
+
+function GetMap(){
+//------------------------------------------------------------------------
+//1. Instance
+//------------------------------------------------------------------------
+const map = new Bmap("#myMap");
+
+//---------------------------------------------------
+
+map.startMap(35.544183970713334, 134.81330869397715, "load", 10);
+
+function getCenter(){
+  let center = myMap.getCenter
+};
+
+var pins = new Microsoft.Maps.EntityCollection();
+  // var i ; var confirmed = 0;
+for (i = 0; i< 'lat_lng'.length; i++){
+
+  // console.log($lat_lng);
+  var position = new Microsoft.Maps.Location('lat_lng');
+  var pin = new Microsoft.Maps.Pushpin(position);
+  pins.push(pin);
+  map.entities.push(pins);
+};
+}
+
+//   var pins = new Microsoft.Maps.EntityCollection();
+//   // var i ; var confirmed = 0;
+// for (i = 0; i< $_GET['lat_lng'].length; i++){
+//   var_dump($lat_lng);
+//   var position = new Microsoft.Maps.Location($_GET['lat_lng']);
+//   var pin = new Microsoft.Maps.Pushpin(position);
+//   pins.push(pin);
+//   map.entities.push(pins);
+// };
+// }
+</script>
+
 </body>
 </html>

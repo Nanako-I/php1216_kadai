@@ -36,7 +36,7 @@ try {
 $stmt = $pdo->prepare("INSERT INTO
 
 gs_map_table (
-    name, URL, comment, lat, lng, date
+  name, URL, comment, lat, lng, date
  ) VALUES(:name, :URL, :comment, :lat, :lng,  sysdate() )");
 
 // gs_map_table (
@@ -55,8 +55,10 @@ gs_map_table (
 $stmt->bindValue(':name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':URL', $URL, PDO::PARAM_STR);
 $stmt->bindValue(':comment', $comment, PDO::PARAM_STR);
-$stmt->bindValue(':lat', $lat, PDO::PARAM_INT);
-$stmt->bindValue(':lng', $lng, PDO::PARAM_INT);
+// 緯度経度は数値だけどphpのdecimalの型にはめるためPARAM_INTではなくPARAM_STRと指定↓
+$stmt->bindValue(':lat', $lat, PDO::PARAM_STR);
+$stmt->bindValue(':lng', $lng, PDO::PARAM_STR);
+
 //  3. 実行
 // execute＝実行してください！
 $status = $stmt->execute();

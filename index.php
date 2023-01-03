@@ -63,11 +63,11 @@ body {
                 <legend>学校のコメントを入力</legend>
                 <label>学校名：<input type="text" name="name"></label><br>
                 <label>学校HP:<input type="URL" name="URL"></label><br>
-                <label>緯度：<input type="text" name="lat"  id="show_lat" placeholder="緯度が自動入力"></label><br>
+                <label>緯度：<input type="text" name="lat"  placeholder="緯度が自動入力" id="show_lat" ></label><br>
                 <label>経度：<input type="text" name="lng" id="show_lng" placeholder="経度が自動入力"></label><br>
                 <label><textArea name="comment" rows="4" cols="40"></textArea></label><br>
                 <input type="submit" value="送信">
-                <div id="geocode">geocode:data</div>
+                <!-- <div id="geocode">geocode:data</div> -->
             </fieldset>
         </div>
     </form>
@@ -80,7 +80,7 @@ body {
   <script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=' async
     defer></script>
  <script src="js/BmapQuery.js"></script>
-  <script src="js/map.js"></script>
+  <!-- <script src="js/map.js"></script> -->
   
 
   <script>
@@ -107,10 +107,17 @@ map.onGeocode("click", function(data){
         console.log(data);                   //Get Geocode ObjectData
         const lat = data.location.latitude;  //Get latitude
         const lon = data.location.longitude; //Get longitude
-        map.infoboxHtml(lat,lon, '<div style="background:red;">Hello,world</div>');
+        map.infoboxHtml(lat,lon, '<div style="background:red;">位置を取得！</div>');
         map.pin(lat,lon, '#ff0000');
-        document.querySelector("#show_lat").innerHTML= lat;
-        document.querySelector("#show_lng").innerHTML= lon;
+        // 緯度・経度のテキストボックスにクリックした地点の座標を挿入↓
+        document.getElementById("show_lat").value = lat;
+        document.getElementById("show_lng").value = lon;
+        alert(lat);
+        // document.querySelector("input[name='login_mail']").value;
+
+        // document.getElementById("show_lat").innerText = lat.outerHTML;
+        // document.querySelector("#show_lat").input.outerHTML= lat;
+        // document.querySelector("#show_lng").innerHTML= lon;
         // document.querySelector("#geocode").innerHTML= lat+','+lon;
     });
   };
