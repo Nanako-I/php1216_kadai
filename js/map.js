@@ -18,6 +18,16 @@ function mapsInit(position) {
     
   });
 
+  var pins = new Microsoft.Maps.EntityCollection();
+  // var i ; var confirmed = 0;
+for (i = 0; i< $_GET['lat_lng'].length; i++){
+  var_dump($lat_lng);
+  var position = new Microsoft.Maps.Location($_GET['lat_lng']);
+  var pin = new Microsoft.Maps.Pushpin(position);
+  pins.push(pin);
+  map.entities.push(pins);
+};
+
   let infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
     width: 160,
     height: 80,
@@ -59,7 +69,7 @@ $(".jumbotron").toggle(1000);
         });
 
 
-       
+
 // --------------------------------------
 // 　　　　　出石特別支援のpushpin↓
 // --------------------------------------
@@ -154,4 +164,4 @@ const set = {
 //最初に実行する関数
 function GetMap() {
   navigator.geolocation.getCurrentPosition(mapsInit, mapsError, set);
-}
+};
