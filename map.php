@@ -15,7 +15,26 @@ function mapsInit(position) {
     // let infoWind=new Microsoft.Maps.InfoWindow();
 
     
-  });
+  })
+};
+
+var pins = new Microsoft.Maps.EntityCollection();
+  // var i ; var confirmed = 0;
+for (i = 0; i<lat_lng.length; i++){
+  var_dump($lat_lng);
+  var position = new Microsoft.Maps.Location($lat,$lng);
+  var pin = new Microsoft.Maps.Pushpin(position);
+  pins.push(pin);
+  map.entities.push(pins);
+
+}
+// marker = new Microsoft.Maps.Pushpin({
+//  position: new Microsoft.Maps.LatLng(locations[i][1],locations[i][2]),
+//  map:map,
+//  icon:locations[i][4] ==='1'?,
+//  html:document.getElementById('form')
+
+// )};
 
   let infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
     width: 160,
@@ -86,41 +105,10 @@ alert("精和園成人寮");
 // $(".seiwaen").toggle(1000);
         });
 
-
   // $(document).ready(function(){
-
-
   // })
 };
 
-
-
-
-
-
-  
-  //Map表示
-  // map = new Bmap("#myMap");
-  // map.startMap(35.544183970713334, 134.81330869397715, "load", 20); 
-  //The place is Bellevue.
-  //Pinを追加
-  // let pin = map.pin(35.544183970713334, 134.81330869397715, "#0066FF");
-  // let pin_izushi_tokubetu = map.pin(35.47786214757359, 134.86872629492163, "#ff9900");
-  // let pin_seiwaen = map.pin(35.4765884892285, 134.86928487545512, "#ff0000");
-  // let pin_seiwaen2 = map.pin(35.4714349,134.8419697, "#ff0000");
-  // let pin_toyosyou = map.pin(35.541965219092525, 134.82205814002293, "#ff9900");
-  //Infoboxを追加
-  // map.infobox(35.544183970713334, 134.81330869397715, "豊岡駅", "駅");
-  // map.infobox(35.47786214757359, 134.86872629492163, "出石特別支援学校", "特別支援学校");
-  // map.infobox(35.4765884892285, 134.86928487545512, "出石精和園児童寮", "生活支援施設");
-  // map.infobox(35.4714349,134.8419697, "出石精和園成人寮", "生活支援施設");
-  // map.infobox(35.541965219092525, 134.82205814002293, "豊岡小学校", "ひまわり学級(特別支援学級)");
-
-  // map.Events.addHandler(pin_toyosyou,"click",function(){
-  //   alert("click");
-  //       });
-
-// };
 
 
 //****************************************
