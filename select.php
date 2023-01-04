@@ -40,28 +40,27 @@ if ($status==false) {
   // 1行とったらresultに格納し処理する↓
   while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
 
-        //GETデータ送信リンク作成
+        //学校長コード　 緯度経度を配列にプッシュする命令↓
+        $lat = $result["lat"];
+        $lng = $result["lng"];
+        //$lat_lng=[];とし、グローバル変数に配列を入れること。ループの中で上書きが起きます。
+        $lat_lng[] = array('lat'=> $lat, 'lng'=> $lng );
 
         $view .= '<p>';
+        //GETデータ送信リンク作成
         $view .= '<a href="detail.php?id=' . $result['id'] . '">';
         $view .= $result['name'] . '：' . $result['URL'] . '：' . $result['comment'] . '：' . $result['lat'] . '：' .  $result['lng'];
         $view .= '</a>';
 
 
         // 緯度経度を配列にプッシュする命令↓
-        $lat_lng = array('lat'=> $result['lat'], 'lng'=> $result['lng']);
-
-        // $keys = array_keys($lat_lng);
-        // var_dump($keys);
+        // $lat_lng = array('lat'=> $result['lat'], 'lng'=> $result['lng']);
 
         // 配列名が「$lat_lng」なので、値を取得するときは「$lat_lng[]」と書く↓
         // 取得したい値のキーを[]の中に書く
-        $lat = $lat_lng["lat"];
-        $lng = $lat_lng["lng"];
-        var_dump($lat,$lng);
-
-
-        // var_dump($lat_lng);
+        // $lat = $lat_lng["lat"];
+        // $lng = $lat_lng["lng"];
+        // var_dump($lat,$lng);
 
 // 削除処理追加↓
     $view .= '<a href="delete.php?id=' . $result['id'] . '">';
@@ -69,9 +68,10 @@ if ($status==false) {
         $view .= '</a>';
         $view .= '</p>';
   }
-
 }
-
+//学校長コード↓　JSに渡したいとき　 
+// JSON_UNESCAPED_UNICODEはUnicode 文字をそのままの形式で扱います
+$json = json_encode($lat_lng,JSON_UNESCAPED_UNICODE);
 ?>
 
 
@@ -118,7 +118,7 @@ body {
 }
 
        .jumbotron{
-        display: none;
+        /* display: none; */
        }
     </style>
 
@@ -157,41 +157,30 @@ body {
   <!-- <script src="js/map.js"></script> -->
   <script>
 
+// 学校長コード↓
+let map;
 function GetMap(){
-//------------------------------------------------------------------------
-//1. Instance
-//------------------------------------------------------------------------
-const map = new Bmap("#myMap");
-
-//---------------------------------------------------
-
-map.startMap(35.544183970713334, 134.81330869397715, "load", 10);
-
-function getCenter(){
-  let center = myMap.getCenter
-};
-
-var pins = new Microsoft.Maps.EntityCollection();
-  // var i ; var confirmed = 0;
-for (i = 0; i< 'lat_lng'.length; i++){
-
-  // console.log($lat_lng);
-  var position = new Microsoft.Maps.Location('lat_lng');
-  var pin = new Microsoft.Maps.Pushpin(position);
-  pins.push(pin);
-  map.entities.push(pins);
-};
+  map = new Bmap("#myMap"); //MAPの準備(BmapQuery.js)
+  const json = JSON.parse('<?= $json ?>'); //PHPのJSON文字列をJSのオブジェクト変数に変換！
+  map.startMap(json[0].lat, json[0].lng, "load", 18); //MAP表示(BmapQuery.js)
+  for (i = 0; i< json.length; i++){ //配列数 回す
+    let pin = map.pin(json[i].lat-0, json[i].lng-0, "#ff0000"); //PINを立てる(BmapQuery.js)
+    // BmapQuery.jsは以下サイトでサンプルを見た方が早いです。
+    // https://mapapi.org/indexb.php
+  };
 }
 
-//   var pins = new Microsoft.Maps.EntityCollection();
+// var pins = new Microsoft.Maps.EntityCollection();
 //   // var i ; var confirmed = 0;
-// for (i = 0; i< $_GET['lat_lng'].length; i++){
-//   var_dump($lat_lng);
-//   var position = new Microsoft.Maps.Location($_GET['lat_lng']);
+// for (i = 0; i< 'lat_lng'.length; i++){
+
+//   // console.log($lat_lng);
+//   var position = new Microsoft.Maps.Location('lat_lng');
 //   var pin = new Microsoft.Maps.Pushpin(position);
 //   pins.push(pin);
 //   map.entities.push(pins);
 // };
+// }
 // }
 </script>
 
