@@ -19,3 +19,5 @@
 https://mapapi.org/example.php?file=geocode&h=4
 
 - [参考記事]
+bingmapを活用するための参考コードです↓
+https://mapapi.org/indexb.php
