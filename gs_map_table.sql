@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2022-12-29 18:56:52
+-- 生成日時: 2023-01-05 16:00:30
 -- サーバのバージョン： 10.4.27-MariaDB
 -- PHP のバージョン: 8.1.12
 
@@ -32,8 +32,8 @@ CREATE TABLE `gs_map_table` (
   `name` varchar(64) NOT NULL,
   `URL` text NOT NULL,
   `comment` text NOT NULL,
-  `lat` int(128) NOT NULL,
-  `lng` int(128) NOT NULL,
+  `lat` varchar(64) NOT NULL,
+  `lng` varchar(64) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -42,9 +42,10 @@ CREATE TABLE `gs_map_table` (
 --
 
 INSERT INTO `gs_map_table` (`id`, `name`, `URL`, `comment`, `lat`, `lng`, `date`) VALUES
-(1, '豊岡小学校', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', 'aaa', 0, 0, '2022-12-25 23:19:33'),
-(2, '豊岡小学校', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', '111', 0, 0, '2022-12-27 00:29:21'),
-(3, '豊岡小学校', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', '111', 0, 0, '2022-12-27 00:29:31');
+(16, '日本海', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', '777', '35.000000000000000', '135.000000000000000', '2022-12-31 16:13:55'),
+(17, '日本海', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', 'yyy', '35.000000000000000', '134.000000000000000', '2022-12-31 16:25:11'),
+(18, 'aaaa', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', 'aaa', '35.000000000000000', '134.000000000000000', '2022-12-31 17:24:50'),
+(27, '豊岡小学校', 'http://www2.city.toyooka.hyogo.jp/edu/school/toyooka-es/', 'よかった', '35.833786987947626', '134.887891261973100', '2023-01-04 23:29:25');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -64,7 +65,7 @@ ALTER TABLE `gs_map_table`
 -- テーブルの AUTO_INCREMENT `gs_map_table`
 --
 ALTER TABLE `gs_map_table`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
