@@ -10,7 +10,7 @@ function h($str)
 // insert.phpと同じ↓
 try {
   //Password:MAMP='root',XAMPP=''
-  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost', 'root', '');
+  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost', 'root', 'root');
 } catch (PDOException $e) {
   exit('DBConnectError'.$e->getMessage());
 }
@@ -19,8 +19,6 @@ try {
 // 処理のSQLを書く↓
 // データ上にあるデータを取ってくるため、セキュリティ上問題ない
 $stmt = $pdo->prepare("SELECT * FROM gs_map_table;");
-// 昨日付け足し↓
-// $stmt = $pdo->prepare("SELECT * FROM gs_map_table WHERE name LIKE '豊岡小学校'");
 
 
 $status = $stmt->execute();
@@ -52,16 +50,6 @@ if ($status==false) {
         $view .= $result['name'] . '：' . $result['URL'] . '：' . $result['comment'] . '：' . $result['lat'] . '：' .  $result['lng'];
         $view .= '</a>';
 
-
-        // 緯度経度を配列にプッシュする命令↓
-        // $lat_lng = array('lat'=> $result['lat'], 'lng'=> $result['lng']);
-
-        // 配列名が「$lat_lng」なので、値を取得するときは「$lat_lng[]」と書く↓
-        // 取得したい値のキーを[]の中に書く
-        // $lat = $lat_lng["lat"];
-        // $lng = $lat_lng["lng"];
-        // var_dump($lat,$lng);
-
 // 削除処理追加↓
     $view .= '<a href="delete.php?id=' . $result['id'] . '">';
         $view .= '[ 削除 ]';
@@ -69,7 +57,7 @@ if ($status==false) {
         $view .= '</p>';
   }
 }
-//学校長コード↓　JSに渡したいとき　 
+// JSに渡したいとき　 
 // JSON_UNESCAPED_UNICODEはUnicode 文字をそのままの形式で扱います
 $json = json_encode($lat_lng,JSON_UNESCAPED_UNICODE);
 ?>
@@ -93,11 +81,6 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-}
-
-.map_app{
-  /* display: flex; */
   height: 100%;
 }
 
@@ -138,7 +121,6 @@ body {
 
 <!-- Main[Start] -->
 <div>
-  <!-- $view←ここに取得したnameが全部入ってくる -->
   
     <div class="container jumbotron"><?=$view ?></div>
 </div>
@@ -170,18 +152,6 @@ function GetMap(){
   };
 }
 
-// var pins = new Microsoft.Maps.EntityCollection();
-//   // var i ; var confirmed = 0;
-// for (i = 0; i< 'lat_lng'.length; i++){
-
-//   // console.log($lat_lng);
-//   var position = new Microsoft.Maps.Location('lat_lng');
-//   var pin = new Microsoft.Maps.Pushpin(position);
-//   pins.push(pin);
-//   map.entities.push(pins);
-// };
-// }
-// }
 </script>
 
 </body>

@@ -1,19 +1,11 @@
 <?php
-
-/**
- * [ここでやりたいこと]
- * 1. クエリパラメータの確認 = GETで取得している内容を確認する
- * 2. select.phpのPHP<?php ?>の中身をコピー、貼り付け
- * 3. SQL部分にwhereを追加
- * 4. データ取得の箇所を修正。
- */
 $id = $_GET['id'];
 // echo $id;
 
 
 try {
   //Password:MAMP='root',XAMPP=''
-  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost', 'root', '');
+  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost', 'root', 'root');
 } catch (PDOException $e) {
   exit('DBConnectError'.$e->getMessage());
 }

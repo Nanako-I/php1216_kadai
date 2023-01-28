@@ -2,13 +2,6 @@
 
 
 <?php
-/**
- * 1. index.phpのフォームの部分がおかしいので、ここを書き換えて、
- * insert.phpにPOSTでデータが飛ぶようにしてください。
- * 2. insert.phpで値を受け取ってください。
- * 3. 受け取ったデータをバインド変数に与えてください。
- * 4. index.phpフォームに書き込み、送信を行ってみて、実際にPhpMyAdminを確認してみてください！
- */
 
 //1. POSTデータ取得
 $name = $_POST['name'];
@@ -22,7 +15,7 @@ $lng = $_POST['lng'];
 try {
     //ID:'root', Password: xamppは 空白 ''
     // データベースネーム＝gs_db・デフォルトのID＝root・デフォルトのPW＝空白
-    $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost', 'root', '');
+    $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost', 'root', 'root');
     // エラーをキャッチしたら下記やってください↓
 } catch (PDOException $e) {
   // exit＝処理を止めて処理の中身を書いてください↓
@@ -38,15 +31,6 @@ $stmt = $pdo->prepare("INSERT INTO
 gs_map_table (
   name, URL, comment, lat, lng, date
  ) VALUES(:name, :URL, :comment, :lat, :lng,  sysdate() )");
-
-// gs_map_table (
-//     id, name, URL, comment, lat, lng, date
-//  ) VALUES(NULL, :name, :URL, :comment, :lat, :lng,  sysdate() )");
-
-
-                        // -- NULLとすると自動的に連番でIDに入る 
-                        // -- :nameや:URLは変数。$stmt->bindValueに入れる前に仮置きしてるだけ。$nameと同じ意味
-                        
 
 //  2. バインド変数を用意
 // Integer 数値の場合 PDO::PARAM_INT
